@@ -2,9 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class schedSim {
     public class Process {
@@ -186,7 +184,7 @@ public class schedSim {
         }
 
         PriorityQueue<Process> sortedProcess = scheduler.sortByArrivalTime(file);
-        
+
         if (ALGORITHM.equals("SRTN")) {
             schedSRTN(sortedProcess);
         } else if (ALGORITHM.equals("RR")) {
