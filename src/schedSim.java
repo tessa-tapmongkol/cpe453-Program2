@@ -109,42 +109,6 @@ public class schedSim {
         printJobs(doneJobs);
     }
 
-    // private static void schedRR(PriorityQueue<Process> processes, int QUANTUM) {
-    //     int id = 0;
-    //     PriorityQueue<Process> doneJobs = new PriorityQueue<>((a, b) -> a.id - b.id);
-    //     Process current = processes.poll();
-    //     Process next = null;
-    //     current.id = id++;
-    //     int currTime = current.arrivalTime;
-    //     while (!processes.isEmpty()) {
-    //         if (next == null)
-    //             next = processes.poll();
-    //         if (current.burstTime - QUANTUM > 0) {
-    //             current.burstTime -= QUANTUM;
-    //             currTime += QUANTUM;
-    //             Process temp = current;
-    //             current = next;
-    //             next = temp;
-    //         } else if (current.burstTime - QUANTUM == 0) {
-    //             currTime += QUANTUM;
-    //             current.completeTime = currTime;
-    //             doneJobs.offer(current);
-    //             current = next;
-    //             next = null;
-    //         } else {
-    //             currTime += current.burstTime;
-    //             current.completeTime = currTime;
-    //             doneJobs.offer(current);
-    //             current = next;
-    //             next = null;
-    //         }
-    //     }
-    //     current.completeTime = currTime + current.burstTime;
-    //     doneJobs.offer(current);
-
-    //     printJobs(doneJobs);
-    // }
-
     private static void schedRR(ArrayList<Process> processes, int QUANTUM) {
         int id = 0;
         PriorityQueue<Process> doneJobs = new PriorityQueue<>((a, b) -> a.id - b.id);
@@ -222,11 +186,7 @@ public class schedSim {
         }
 
         PriorityQueue<Process> sortedProcess = scheduler.sortByArrivalTime(file);
-
-        ////////////////////////////////////////////////////////////////////////
-        // Changed order, since FIFO should be the default one, even if invalid alg is given
-        // Also changed Queue to arraylist, doesn't look too clean??
-        ////////////////////////////////////////////////////////////////////////
+        
         if (ALGORITHM.equals("SRTN")) {
             schedSRTN(sortedProcess);
         } else if (ALGORITHM.equals("RR")) {

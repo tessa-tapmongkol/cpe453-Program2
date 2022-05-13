@@ -1,13 +1,6 @@
 Completed by:
 --> Tessa Tapmongkol and Ricardo Beltran
 
-//////////////////////////
-// Ricardo's Questions: //
-//////////////////////////
-1. Running RR with test1.txt labels multiple processes with same ID....how to resolve ties?
-2. What was the RR bug?
-
-
 /////////////////////////
 
 Special Instructions:
@@ -15,16 +8,20 @@ Special Instructions:
 
 Questions:
 1. For what types of workloads does SRTN deliver the same turnaround times as FIFO?
--->
+--> They would deliver the same turnaround time as FIFO when the workloads are made up of jobs that
+    either are the same burst length, or where they come in in ascending order of burst length.
 
 2. For what types of workloads and quantum lengths does SRTN deliver the same response
 times as RR?
--->
+--> SRTN would deliver the same turnaround time as RR when the workloads are made up of jobs where  
+    the job burst times do not surpass the quantum so that the isn't any preemption in RR and also 
+    when the jobs come in order of increasing size so that there isn't preemption in SRTN.
 
 3. What happens to response time with SRTN as job lengths increase? Can you use the 
 simulator to demonstrate the trend?
--->
+--> The wait time and turnaround time both increase as the job lengths increase in SRTN.
 
 4. What happens to response time with RR as quantum lengths increase? Can you write an 
 equation that gives the worst-case response time, given N jobs?
--->
+--> As the quantum increases the response time would also increase. The equation for the worst-case
+    response time, given N jobs and Q quantum is Q(n-1) time to respond.
