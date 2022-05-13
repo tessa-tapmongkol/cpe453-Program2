@@ -1,9 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class schedSim {
     public class Process {
@@ -108,40 +107,31 @@ public class schedSim {
         printJobs(doneJobs);
     }
 
-    private static void schedRR(PriorityQueue<Process> processes, int QUANTUM) {
+    private static void schedRR(ArrayList<Process> processes, int QUANTUM) {
         int id = 0;
         PriorityQueue<Process> doneJobs = new PriorityQueue<>((a, b) -> a.id - b.id);
-        Process current = processes.poll();
-        Process next = null;
-        current.id = id++;
-        int currTime = current.arrivalTime;
-        while (!processes.isEmpty()) {
-            if (next == null) next = processes.poll();
-            if (current.burstTime - QUANTUM > 0) {
-                current.burstTime -= QUANTUM;
-                currTime += QUANTUM;
-                Process temp = current;
-                current = next;
-                next = temp;
-            } else if (current.burstTime - QUANTUM == 0) {
-                currTime += QUANTUM;
-                current.completeTime = currTime;
-                doneJobs.offer(current);
-                current = next;
-                next = null;
+        int i = 0;
+        processes.get(i).id = id++;
+        int currTime = processes.get(i).arrivalTime;
+
+        while(!processes.isEmpty()) {
+            i %= processes.size();
+            processes.get(i).burstTime -= QUANTUM; 
+
+            if(processes.get(i).burstTime <= 0){
+                currTime += QUANTUM + processes.get(i).burstTime;
+                processes.get(i).completeTime = currTime;
+                doneJobs.add(processes.get(i));
+                processes.remove(i);
             } else {
-                currTime += current.burstTime;
-                current.completeTime = currTime;
-                doneJobs.offer(current);
-                current = next;
-                next = null;
-            }
+                currTime += QUANTUM;
+                i += 1;
+            } 
         }
-        current.completeTime = currTime + current.burstTime;
-        doneJobs.offer(current);
 
         printJobs(doneJobs);
     }
+
 
     private static void schedFIFO(PriorityQueue<Process> processes) {
         int id = 0;
@@ -175,6 +165,9 @@ public class schedSim {
         int QUANTUM = 1;
         Scanner file = new Scanner(new File(args[0]));
 
+        ////////////////////////////////////////////////////////////////////////
+        // In proj desc. it says flags can be in any order, would this work?
+        ////////////////////////////////////////////////////////////////////////
         for (int i = 1; i < args.length; i++) {
             if (args[i].equals("-p")) {
                 if (args[i + 1].equals("RR")) {
@@ -191,12 +184,13 @@ public class schedSim {
         }
 
         PriorityQueue<Process> sortedProcess = scheduler.sortByArrivalTime(file);
-        if (ALGORITHM.equals("FIFO")) {
-            schedFIFO(sortedProcess);
-        } else if (ALGORITHM.equals("RR")) {
-            schedRR(sortedProcess, QUANTUM);
-        } else {
+
+        if (ALGORITHM.equals("SRTN")) {
             schedSRTN(sortedProcess);
+        } else if (ALGORITHM.equals("RR")) {
+            schedRR(new ArrayList<Process>(sortedProcess), QUANTUM);
+        } else {
+            schedFIFO(sortedProcess);
         }
     }
 }
