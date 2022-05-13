@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
+
 public class schedSim {
     public class Process {
         // Job id
@@ -21,6 +22,7 @@ public class schedSim {
             this.ogBurstTime = burstTime;
         }
     }
+
 
     private static void printJobs(PriorityQueue<Process> doneJobs) {
         int totalWaitTime = 0;
@@ -42,6 +44,7 @@ public class schedSim {
                 totalWaitTime / (double) numJobs);
     }
 
+
     private PriorityQueue<Process> sortByArrivalTime(Scanner file) {
         // Sort processes by arrival time
         PriorityQueue<Process> pq = new PriorityQueue<>((a, b) -> {
@@ -59,6 +62,7 @@ public class schedSim {
         }
         return pq;
     }
+
 
     private static void schedSRTN(PriorityQueue<Process> processes) {
         int id = 0;
@@ -106,6 +110,7 @@ public class schedSim {
 
         printJobs(doneJobs);
     }
+
 
     private static void schedRR(ArrayList<Process> processes, int QUANTUM) {
         int id = 0;
@@ -165,9 +170,6 @@ public class schedSim {
         int QUANTUM = 1;
         Scanner file = new Scanner(new File(args[0]));
 
-        ////////////////////////////////////////////////////////////////////////
-        // In proj desc. it says flags can be in any order, would this work?
-        ////////////////////////////////////////////////////////////////////////
         for (int i = 1; i < args.length; i++) {
             if (args[i].equals("-p")) {
                 if (args[i + 1].equals("RR")) {
